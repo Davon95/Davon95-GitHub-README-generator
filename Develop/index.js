@@ -1,7 +1,8 @@
 // TODO: Include packages needed for this application
-const inquirer = require('inquirer');
+const inquirer = import('inquirer');
+const generateMarkdown = import('./utils/generateMarkdown');
 // TODO: Create an array of questions for user input
-const userQuestions = () => {
+const userInputs = () => {
     return inquirer.prompt ([
         {
             type: 'input',
@@ -30,9 +31,9 @@ const userQuestions = () => {
             }
         },
         {
-            type: 'input',
+            type: 'confirm',
             name: 'confirmDesc',
-            message: 'Do you want to add a description of your project?(Y/N)',
+            message: 'Do you want to add a description of your project?',
             default: true,
         },
         {
@@ -47,17 +48,44 @@ const userQuestions = () => {
                 }
             }
         },
+        {
+            type: 'input',
+            name: 'installation',
+            message: 'Add any installations from your project.'
+        },
+        {
+            type: 'input',
+            name: 'licenses',
+            message: 'Add any licenses if any installtions was included.'
+        },
+        {
+            type: 'input',
+            name: 'usage',
+            message: 'Add a breif description on how to use your project.(Required)',
+            validation: usageChk => {
+                if (usageChk) {
+                    return true;
+                } else {
+                    console.log('Please add a  valid description!')
+                }
+            }
+        },
     ]);
-}
+};
 
 // TODO: Create a function to write README file
-function writeToFile(fileName, data) { }
+function writeToFile(fileName, data) {
+    return writeToFile(fileName, data);
+};
 
 // TODO: Create a function to initialize app
-function init() { }
+function init() { 
+    
+}
 
 // Function call to initialize app
 init();
+userInputs();
 
 
 // Generate a high-quality README.md file with the following contents:
