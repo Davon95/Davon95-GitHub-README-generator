@@ -57,11 +57,12 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
-    "type": "git",
+    "type": "commonjs",
     "url": "git+https://github.com/Davon95/Davon95-GitHub-README-generator.git"
   },
   "author": "",
   "license": "ISC",
+  "type": "commonjs",
   "bugs": {
     "url": "https://github.com/Davon95/Davon95-GitHub-README-generator/issues"
   },
