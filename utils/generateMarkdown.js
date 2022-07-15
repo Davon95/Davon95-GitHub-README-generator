@@ -1,67 +1,69 @@
 // TODO: Create a function that returns a license badge based on which license is passed in
 // If there is no license, return an empty string
-function renderLicenseBadge(license) {
-  if (license) {
-    return `${data.license}`
+function renderLicenseBadge(licenses) {
+  if (!licenses) {
+    return `${data.licenseBadge}`
   } else {
     return ''
   }
-}
+};
 
 // TODO: Create a function that returns the license link
 // If there is no license, return an empty string
-function renderLicenseLink(license) {
-  if (license) {
-    `${data.license}`
+function renderLicenseLink(licenses) {
+  if (!licenses) {
+    `${data.licenseLink}`
   } else {
     return '';
   }
 }
 
-// TODO: Create a function that returns the license section of README
-// If there is no license, return an empty string
-function renderLicenseSection(license) {
-  if(license) {
-    `${data.license}`
+// // TODO: Create a function that returns the license section of README
+// // If there is no license, return an empty string
+function renderLicenseSection(licenses) {
+  if(!licenses) {
+    `Licenses
+    - ${renderLicenseBadge(licenses)}
+    - ${renderLicenseLink(licenses)}`
   } return '';
 }
 
-// TODO: Create a function to generate markdown for README
+// // // TODO: Create a function to generate markdown for README
 function generateMarkdown(data) {
-  return `# ${data.title}
-  Description:
-  ${data.description}
+  return `# ${data.projectTitle}
+  By: ${data.github}
+
+  **Description**
+  ${data.confirmDesc}
   ====================
 
   ====================
 
-  Table of Contents:
-   - <a href="Installation">[Installation]</a>
-   - <a href="License">[License]</a>
-   - <a href="Usage">[Usage]</a>
-   - <a href="Contributing">[Contributing]</a>
-   - <a href="Tests">[Tests]</a>
-   - <a href="Questions">[Questions]</a>
+  **Table of Contents**
+   - [Installation](#installation)
+   - [License](#license)
+   - [Usage](#usage)
+   - [Contributing](#contributing)
+   - [Tests](#test)
+   - [Questions](#questions)
 
-  <h2>Installations:</h2>
-    <p>${data.installations}</p>
+- Installations:
+    ${data.installations}
 
-  <h2>${renderLicenseSection(license)}</h2>
-    <p>${renderLicenseBadge(licenseBadge)}</br>
-    ${renderLicenseLink(licenseLink)}</p>
+    ${renderLicenseSection(data.licenses)}
 
-  <h2>Usage</h2>
-    <p>${data.usage}</p>
+- Usage
+    ${data.usage}
 
-  <h2>Contributing</h2>
-    <p>${data.contributing}</p>
+- Contributing
+    ${data.contributing}
   
-  <h2>Tests</h2>
-    <p>${data.tests}</p>
+- Tests
+    ${data.tests}
 
-  <h2>Questions</h2>
-    <p>${data.questions}</p>
+- Questions
+    ${data.questions}
 `;
 }
 
-module.exports = generateMarkdown();
+module.exports = { generateMarkdown };

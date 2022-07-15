@@ -1,98 +1,116 @@
 // TODO: Include packages needed for this application
-const inquirer = require("inquirer");
+const inquirer = require('inquirer');
+const { generateMarkdown } = require('./utils/generateMarkdown');
 const fs = require('fs');
-const generateMarkdown = require("./utils/generateMarkdown");
-// const generateMarkdown = require('../utils/generateMarkdown');
+
 // TODO: Create an array of questions for user input
 const userInputs = () => {
     return inquirer.prompt([
-            {
-                type: 'input',
-                name: 'github',
-                message: 'What is your GitHub username?(Required)',
-                validate: nameInput => {
-                    if (nameInput) {
-                        return true;
-                    } else {
-                        console.log('Enter a valid username!');
-                        return false;
-                    }
+        {
+            type: 'input',
+            name: 'projectTitle',
+            message: 'What is your project title?(Required)',
+            validate: projectInput => {
+                if (projectInput) {
+                    return true;
+                } else {
+                    console.log('Enter a valid project title!');
+                    return false;
                 }
-            },
-            {
-                type: 'input',
-                name: 'projectTitle',
-                message: 'What is your project title?(Required)',
-                validate: projectInput => {
-                    if (projectInput) {
-                        return true;
-                    } else {
-                        console.log('Enter a valid project title!');
-                        return false;
-                    }
+            }
+        },
+        {
+            type: 'input',
+            name: 'github',
+            message: 'What is your GitHub username?(Required)',
+            validate: nameInput => {
+                if (nameInput) {
+                    return true;
+                } else {
+                    console.log('Enter a valid username!');
+                    return false;
                 }
-            },
-            {
-                type: 'confirm',
-                name: 'confirmDesc',
-                message: 'Do you want to add a description of your project?',
-                default: true
-            },
-            {
-                type: 'input',
-                name: 'descOfProject',
-                message: 'Enter description of your project.',
-                when: ({ confirmDesc }) => {
-                    if (confirmDesc) {
-                        return true;
-                    } else {
-                        return false;
-                    }
+            }
+        },
+        {
+            type: 'input',
+            name: 'description',
+            message: 'Enter description of your project.(Required)',
+            validate:  description => {
+                if (description) {
+                    return true;
+                } else {
+                    console.log('Enter a description!');
+                    return false;
                 }
-            },
-            {
-                type: 'input',
-                name: 'installation',
-                message: 'Add any installations from your project.'
-            },
-            {
-                type: 'input',
-                name: 'licenses',
-                message: 'Add any licenses if any installtions was included.'
-            },
-            {
-                type: 'input',
-                name: 'usage',
-                message: 'Add a breif description on how to use your project.(Required)',
-                validation: usageChk => {
-                    if (usageChk) {
-                        return true;
-                    } else {
-                        console.log('Please add a  valid description!');
-                        return false;
-                    }
+            }
+        },
+        {
+            type: 'input',
+            name: 'installations',
+            message: 'Add any installations from your project.'
+        },
+        {
+            type: 'input',
+            name: 'licenseBadge',
+            message: 'Add a license(s) badge.'
+        },
+        {
+            type: 'input',
+            name: 'licenseLink',
+            message: 'Add a link to the license(s).'
+        },
+        {
+            type: 'input',
+            name: 'usage',
+            message: 'Add a breif description on how to use your project.(Required)',
+            validation: usageChk => {
+                if (usageChk) {
+                    return true;
+                } else {
+                    console.log('Please add a  valid description!');
+                    return false;
                 }
-            },
-        ]);
+            }
+        },
+        {
+            type: 'input',
+            name: 'contribution',
+            message: 'Add a list of those contributed in this project.'
+        },
+        {
+            type: 'input',
+            name: 'tests',
+            message: 'Provide a test if needed.(Optional)(Type N/A for blank)'
+        },
+    ])
 };
 
 // TODO: Create a function to write README file
 function writeToFile(fileName, data) {
-    fs.writeToFile('/README.md', fileName, data => {
-        if (data) {
-            console.log('File Updated!');
-        } 
-    })
-    return writeToFile(fileName, data);
+    return new Promise((resolve, reject) => {
+        fs.writeFile('./README.md', fileName, err => {
+            if (err) {
+                reject(err);
+                return;
+            }
+
+            resolve({
+                ok: true,
+                message: 'File Updated'
+            });
+        });
+    });
+    // return writeToFile(fileName, data);
 };
-
+    
 // TODO: Create a function to initialize app
-function init() {
-    userInputs 
-    writeToFile();
-    generateMarkdown();
-}
-
+const init = function () {
+    userInputs()
+        .then(generateMarkdown)
+        .then(writeToFile);
+    console.log();
+};
 // Function call to initialize app
 init();
 
