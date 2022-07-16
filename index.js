@@ -83,21 +83,26 @@ const userInputs = () => {
             name: 'tests',
             message: 'Provide a test if needed.(Optional)(Type N/A for blank)'
         },
+        {
+            type: 'input',
+            name: 'questions',
+            message: 'Add any questions or other misc things.'
+        }
     ])
 };
 
 // TODO: Create a function to write README file
 function writeToFile(fileName, data) {
     return new Promise((resolve, reject) => {
-        fs.writeFile('./README.md', fileName, err => {
+        fs.writeFile('./README.md', fileName, data, err => {
             if (err) {
                 reject(err);
                 return;
             }
 
-            resolve({
+            resolve({ 
                 ok: true,
-                message: 'File Updated'
+                message: 'File Updated!',
             });
         });
     });
@@ -108,8 +113,7 @@ function writeToFile(fileName, data) {
 const init = function () {
     userInputs()
         .then(generateMarkdown)
-        .then(writeToFile);
-    console.log();
+        .then(writeToFile)
 };
 // Function call to initialize app
 init();
